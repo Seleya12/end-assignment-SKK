@@ -15,3 +15,4 @@ BIG_R = 38
 
 PLAY_TIME = 20.0
 
+LOOP_PATH = os.path.join("media", "loop.ogg")
