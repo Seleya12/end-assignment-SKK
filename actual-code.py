@@ -29,13 +29,13 @@ def draw_start(screen, big, small, audio_loaded):
         screen.blit(msg, (WIDTH//2 - msg.get_width()//2, HEIGHT//2 + 40))
 
 
-def draw_play(screen, small, pulse_on, score, remaining_s)
-screen.fill(BG)
-cx, cy = WIDTH // 2, HEIGHT // 2
-radius = BIG_R if pulse_on else BASE_R
-pygame.draw.circle(screen, WHITE, (cx, cy), radius, width=2)
-score_text = small.render(f"Score: {score}", True, WHITE)
-time_text = small.render(f"Time: {remaining_s}s", True, WHITE)
-screen.blit(score_text, (16, 16))
-screen.blit(time_text, (16, 44))
+def draw_play(screen, small, pulse_on, score, remaining_s):
+    screen.fill(BG)
+    cx, cy = WIDTH // 2, HEIGHT // 2
+    radius = BIG_R if pulse_on else BASE_R
+    pygame.draw.circle(screen, WHITE, (cx, cy), radius, width=2)
+    score_text = small.render(f"Score: {score}", True, WHITE)
+    time_text = small.render(f"Time: {remaining_s}s", True, WHITE)
+    screen.blit(score_text, (16, 16))
+    screen.blit(time_text, (16, 44))
 
