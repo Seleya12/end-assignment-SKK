@@ -1,4 +1,4 @@
-import sys, pygame 
+import sys, pygame, os
 
 WIDTH, HEIGHT = 800, 600
 BG = (15, 15, 30)
@@ -18,7 +18,7 @@ PLAY_TIME = 20.0
 LOOP_PATH = os.path.join("media", "loop.ogg") #path for the possible sound
 
 
-def draw_start(screen, big, small): 
+def draw_start(screen, big, small, audio_loaded):
     screen.fill(BG)
     title = big.render("ShyRhythm", True, WHITE)
     hint = small.render("Press ENTER to start", True, WHITE)
@@ -26,4 +26,4 @@ def draw_start(screen, big, small):
     screen.blit(hint, (WIDTH//2 - hint.get_width()//2, HEIGHT//2 + 10))
     if audio_loaded: 
         msg = small.render("Press M to toggle music", True, WHITE)
-        screen.blit(msg, (WIDTH//2 - msg.get_width()//2, HEIGHT//2 + 40)
+        screen.blit(msg, (WIDTH//2 - msg.get_width()//2, HEIGHT//2 + 40))
