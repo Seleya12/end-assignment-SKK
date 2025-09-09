@@ -1,4 +1,4 @@
-import sys, pygame
+import sys, pygame 
 
 WIDTH, HEIGHT = 800, 600
 BG = (15, 15, 30)
@@ -15,4 +15,4 @@ BIG_R = 38
 
 PLAY_TIME = 20.0
 
-LOOP_PATH = os.path.join("media", "loop.ogg")
+LOOP_PATH = os.path.join("media", "loop.ogg") #path for the possible sound
