@@ -38,4 +38,11 @@ def draw_play(screen, small, pulse_on, score, remaining_s):
     time_text = small.render(f"Time: {remaining_s}s", True, WHITE)
     screen.blit(score_text, (16, 16))
     screen.blit(time_text, (16, 44))
+    
 
+def draw_end(screen, big, small, score):
+    screen.fill(BG)
+    result = big.render(f"Final score: {score}", True, WHITE)
+    restart = small.render("Press R to restart", True, WHITE)
+    screen.blit(result, (WIDTH//2 - result.get_width()//2, HEIGHT//2 - 30))
+    screen.blit(restart, (WIDTH//2 - restart.get_width()//2, HEIGHT//2 + 10))
