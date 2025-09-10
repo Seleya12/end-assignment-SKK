@@ -101,3 +101,32 @@ def main():
 
         elif state == STATE_END and event.key == pygame.K_r:
             state = STATE_START
+
+
+  if state == STATE_START:
+            draw_start(screen, big, small, audio_loaded)
+
+        elif state == STATE_PLAY:
+            t += dt
+            play_elapsed += dt
+            if (t % INTERVAL) < dt:
+                pulse_timer = PULSE_TIME
+            if pulse_timer > 0.0:
+                pulse_timer = max(0.0, pulse_timer - dt)
+            remaining = max(0, int(PLAY_TIME - play_elapsed))
+            draw_play(screen, small, pulse_timer > 0.0, score, remaining)
+            if play_elapsed >= PLAY_TIME:
+                state = STATE_END
+
+        else:
+            draw_end(screen, big, small, score)
+
+        pygame.display.flip()
+
+    pygame.mixer.music.stop()
+    pygame.quit()
+    sys.exit()
+
+
+if __name__ == "__main__":
+    main()
