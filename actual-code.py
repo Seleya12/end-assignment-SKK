@@ -77,8 +77,27 @@ def main():
         dt = clock.tick(60) / 1000.0
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+    if event.type == pygame.QUIT:
+        running = False
 
-            elif event.type == pygame.KEYDOWN:
-                if state == STATE_START and audio_loaded and event.key == 
+    elif event.type == pygame.KEYDOWN:
+        if state == STATE_START and audio_loaded and event.key == pygame.K_m:
+            audio_on = not audio_on
+            if audio_on:
+                pygame.mixer.music.play(loops=-1)
+            else:
+                pygame.mixer.music.stop()
+
+        if state == STATE_START and event.key == pygame.K_RETURN:
+            state = STATE_PLAY
+            t = 0.0
+            pulse_timer = 0.0
+            score = 0
+            play_elapsed = 0.0
+
+        elif state == STATE_PLAY and event.key == pygame.K_SPACE:
+            if pulse_timer > 0.0:
+                score += 1
+
+        elif state == STATE_END and event.key == pygame.K_r:
+            state = STATE_START
