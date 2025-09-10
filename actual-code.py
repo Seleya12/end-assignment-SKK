@@ -46,3 +46,39 @@ def draw_end(screen, big, small, score):
     restart = small.render("Press R to restart", True, WHITE)
     screen.blit(result, (WIDTH//2 - result.get_width()//2, HEIGHT//2 - 30))
     screen.blit(restart, (WIDTH//2 - restart.get_width()//2, HEIGHT//2 + 10))
+
+
+def main():
+    pygame.mixer.pre_init(44100, -16, 2, 512)
+    pygame.init()
+    pygame.display.set_caption("ShyRhythm (lite + music)")
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    clock = pygame.time.Clock()
+    small = pygame.font.SysFont(None, 28)
+    big = pygame.font.SysFont(None, 48)
+
+    audio_loaded = False
+    try:
+        if os.path.exists(LOOP_PATH):
+            pygame.mixer.music.load(LOOP_PATH)
+            audio_loaded = True
+    except Exception:
+        audio_loaded = False
+    audio_on = False
+
+    state = STATE_START
+    t = 0.0
+    pulse_timer = 0.0
+    score = 0
+    play_elapsed = 0.0
+
+    running = True
+    while running:
+        dt = clock.tick(60) / 1000.0
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+            elif event.type == pygame.KEYDOWN:
+                if state == STATE_START and audio_loaded and event.key == 
