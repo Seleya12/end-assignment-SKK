@@ -15,18 +15,22 @@ BIG_R = 38
 
 PLAY_TIME = 20.0
 
-LOOP_PATH = os.path.join("media", "loop.ogg") #path for the possible sound
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+LOOP_PATH = os.path.join(BASE_DIR, "media", "loop.ogg")
 
 
 def draw_start(screen, big, small, audio_loaded):
     screen.fill(BG)
     title = big.render("ShyRhythm", True, WHITE)
     hint = small.render("Press ENTER to start", True, WHITE)
-    screen.blit(title, (WIDTH//2 - title.get_width()//2, HEIGHT//2 - 40))
-    screen.blit(hint, (WIDTH//2 - hint.get_width()//2, HEIGHT//2 + 10))
-    if audio_loaded: 
+    screen.blit(title, (WIDTH // 2 - title.get_width() // 2, HEIGHT // 2 - 40))
+    screen.blit(hint, (WIDTH // 2 - hint.get_width() // 2, HEIGHT // 2 + 10))
+    if audio_loaded:
         msg = small.render("Press M to toggle music", True, WHITE)
-        screen.blit(msg, (WIDTH//2 - msg.get_width()//2, HEIGHT//2 + 40))
+        screen.blit(msg, (WIDTH // 2 - msg.get_width() // 2, HEIGHT // 2 + 40))
+    else:
+        msg = small.render("No music file found", True, WHITE)
+        screen.blit(msg, (WIDTH // 2 - msg.get_width() // 2, HEIGHT // 2 + 40))
 
 
 def draw_play(screen, small, pulse_on, score, remaining_s):
@@ -38,14 +42,14 @@ def draw_play(screen, small, pulse_on, score, remaining_s):
     time_text = small.render(f"Time: {remaining_s}s", True, WHITE)
     screen.blit(score_text, (16, 16))
     screen.blit(time_text, (16, 44))
-    
+
 
 def draw_end(screen, big, small, score):
     screen.fill(BG)
     result = big.render(f"Final score: {score}", True, WHITE)
     restart = small.render("Press R to restart", True, WHITE)
-    screen.blit(result, (WIDTH//2 - result.get_width()//2, HEIGHT//2 - 30))
-    screen.blit(restart, (WIDTH//2 - restart.get_width()//2, HEIGHT//2 + 10))
+    screen.blit(result, (WIDTH // 2 - result.get_width() // 2, HEIGHT // 2 - 30))
+    screen.blit(restart, (WIDTH // 2 - restart.get_width() // 2, HEIGHT // 2 + 10))
 
 
 def main():
@@ -61,6 +65,7 @@ def main():
     try:
         if os.path.exists(LOOP_PATH):
             pygame.mixer.music.load(LOOP_PATH)
+            pygame.mixer.music.set_volume(0.8)
             audio_loaded = True
     except Exception:
         audio_loaded = False
@@ -76,34 +81,36 @@ def main():
     while running:
         dt = clock.tick(60) / 1000.0
 
-for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-        running = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-    elif event.type == pygame.KEYDOWN:
-        if state == STATE_START and audio_loaded and event.key == pygame.K_m:
-            audio_on = not audio_on
-            if audio_on:
-                pygame.mixer.music.play(loops=-1)
-            else:
-                pygame.mixer.music.stop()
+            elif event.type == pygame.KEYDOWN:
+                if audio_loaded and event.key == pygame.K_m:
+                    audio_on = not audio_on
+                    if audio_on:
+                        pygame.mixer.music.play(loops=-1)
+                    else:
+                        pygame.mixer.music.stop()
 
-        if state == STATE_START and event.key == pygame.K_RETURN:
-            state = STATE_PLAY
-            t = 0.0
-            pulse_timer = 0.0
-            score = 0
-            play_elapsed = 0.0
+                if state == STATE_START and event.key == pygame.K_RETURN:
+                    state = STATE_PLAY
+                    t = 0.0
+                    pulse_timer = 0.0
+                    score = 0
+                    play_elapsed = 0.0
+                    if audio_loaded and not audio_on:
+                        audio_on = True
+                        pygame.mixer.music.play(loops=-1)
 
-        elif state == STATE_PLAY and event.key == pygame.K_SPACE:
-            if pulse_timer > 0.0:
-                score += 1
+                elif state == STATE_PLAY and event.key == pygame.K_SPACE:
+                    if pulse_timer > 0.0:
+                        score += 1
 
-        elif state == STATE_END and event.key == pygame.K_r:
-            state = STATE_START
+                elif state == STATE_END and event.key == pygame.K_r:
+                    state = STATE_START
 
-
-  if state == STATE_START:
+        if state == STATE_START:
             draw_start(screen, big, small, audio_loaded)
 
         elif state == STATE_PLAY:
