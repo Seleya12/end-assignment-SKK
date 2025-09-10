@@ -8,7 +8,8 @@ STATE_START = 0
 STATE_PLAY = 1
 STATE_END = 2
 
-INTERVAL = 0.6
+BPM = 192
+INTERVAL = 60.0 / BPM
 PULSE_TIME = 0.12
 BASE_R = 22
 BIG_R = 38
@@ -21,7 +22,7 @@ LOOP_PATH = os.path.join(BASE_DIR, "media", "loop.ogg")
 
 def draw_start(screen, big, small, audio_loaded):
     screen.fill(BG)
-    title = big.render("ShyRhythm", True, WHITE)
+    title = big.render("Roads Untraveled Rythm-Game", True, WHITE)
     hint = small.render("Press ENTER to start", True, WHITE)
     screen.blit(title, (WIDTH // 2 - title.get_width() // 2, HEIGHT // 2 - 40))
     screen.blit(hint, (WIDTH // 2 - hint.get_width() // 2, HEIGHT // 2 + 10))
@@ -55,7 +56,7 @@ def draw_end(screen, big, small, score):
 def main():
     pygame.mixer.pre_init(44100, -16, 2, 512)
     pygame.init()
-    pygame.display.set_caption("ShyRhythm (lite + music)")
+    pygame.display.set_caption("Roads Untraveled Rythm-Game (lite + music)")
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
     small = pygame.font.SysFont(None, 28)
@@ -114,10 +115,21 @@ def main():
             draw_start(screen, big, small, audio_loaded)
 
         elif state == STATE_PLAY:
-            t += dt
             play_elapsed += dt
-            if (t % INTERVAL) < dt:
+            beat_triggered = False
+
+            if audio_loaded and audio_on and pygame.mixer.music.get_pos() >= 0:
+                pos_s = pygame.mixer.music.get_pos() / 1000.0
+                if (pos_s % INTERVAL) < dt:
+                    beat_triggered = True
+            else:
+                t += dt
+                if (t % INTERVAL) < dt:
+                    beat_triggered = True
+
+            if beat_triggered:
                 pulse_timer = PULSE_TIME
+
             if pulse_timer > 0.0:
                 pulse_timer = max(0.0, pulse_timer - dt)
             remaining = max(0, int(PLAY_TIME - play_elapsed))
