@@ -45,12 +45,12 @@ def draw_play(screen, small, pulse_on, score, remaining_s):
     screen.blit(time_text, (16, 44))
 
 
-def draw_end(screen, big, small, score):
+def draw_end(screen: pygame.Surface, big: pygame.font.Font, small: pygame.font.Font, score: int):
     screen.fill(BG)
     result = big.render(f"Final score: {score}", True, WHITE)
     restart = small.render("Press R to restart", True, WHITE)
-    screen.blit(result, (WIDTH // 2 - result.get_width() // 2, HEIGHT // 2 - 30))
-    screen.blit(restart, (WIDTH // 2 - restart.get_width() // 2, HEIGHT // 2 + 10))
+    screen.blit(result, (WIDTH//2 - result.get_width()//2, HEIGHT//2 - 30))
+    screen.blit(restart, (WIDTH//2 - restart.get_width()//2, HEIGHT//2 + 10))
 
 
 def main():
@@ -100,8 +100,7 @@ def main():
                     pulse_timer = 0.0
                     score = 0
                     play_elapsed = 0.0
-                    if audio_loaded and not audio_on:
-                        audio_on = True
+                    if audio_loaded:
                         pygame.mixer.music.play(loops=-1)
 
                 elif state == STATE_PLAY and event.key == pygame.K_SPACE:
@@ -136,6 +135,8 @@ def main():
             draw_play(screen, small, pulse_timer > 0.0, score, remaining)
             if play_elapsed >= PLAY_TIME:
                 state = STATE_END
+                if audio_loaded:
+                    pygame.mixer.music.stop()
 
         else:
             draw_end(screen, big, small, score)
