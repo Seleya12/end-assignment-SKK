@@ -8,7 +8,7 @@ STATE_START = 0
 STATE_PLAY = 1
 STATE_END = 2
 
-BPM = 192
+BPM = 68
 INTERVAL = 60.0 / BPM
 PULSE_TIME = 0.12
 BASE_R = 22
@@ -24,15 +24,10 @@ def draw_start(screen, big, small, audio_loaded):
     screen.fill(BG)
     title = big.render("Roads Untraveled Rythm-Game", True, WHITE)
     hint = small.render("Press ENTER to start", True, WHITE)
-    screen.blit(title, (WIDTH // 2 - title.get_width() // 2, HEIGHT // 2 - 40))
-    screen.blit(hint, (WIDTH // 2 - hint.get_width() // 2, HEIGHT // 2 + 10))
-    if audio_loaded:
-        msg = small.render("Press M to toggle music", True, WHITE)
-        screen.blit(msg, (WIDTH // 2 - msg.get_width() // 2, HEIGHT // 2 + 40))
-    else:
-        msg = small.render("No music file found", True, WHITE)
-        screen.blit(msg, (WIDTH // 2 - msg.get_width() // 2, HEIGHT // 2 + 40))
-
+    info = small.render("Press SPACE when the circle is big!", True, WHITE)
+    screen.blit(title, (WIDTH // 2 - title.get_width() // 2, HEIGHT // 2 - 50))
+    screen.blit(hint, (WIDTH // 2 - hint.get_width() // 2, HEIGHT // 2))
+    screen.blit(info, (WIDTH // 2 - info.get_width() // 2, HEIGHT // 2 + 40))
 
 def draw_play(screen, small, pulse_on, score, remaining_s):
     screen.fill(BG)
