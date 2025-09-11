@@ -29,7 +29,7 @@ I chose to keep the project intentionally simple, because the semester was quite
 ## 💻 Reflection 
 
 Looking back, I am honestly just happy this is done now. 
-I struggled a lot throughout the semester, so my goal was simply to deliver something complete and playable. And that worked I somehow ended up with a finished game that feels quite personal to me since it includes one of my all time favourite songs. 
+I struggled a lot throughout the semester, so my goal was simply to deliver something complete and playable. And that worked out (I guess), I somehow ended up with a finished game that feels quite personal to me since it includes one of my all time favourite songs. 
 
 On **September 11**, I got some much needed support from my colleagues:  
 - **T. Fleischer** built me a new loop and provided the correct BPM so that the circle pulses on beats 1 and 4.  
